@@ -3,7 +3,6 @@ import discord
 import asyncio
 from discord.ext import tasks
 from googleapiclient.discovery import build
-from flask import Flask
 import threading
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
