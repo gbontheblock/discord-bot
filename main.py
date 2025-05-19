@@ -4,6 +4,7 @@ import asyncio
 from discord.ext import tasks
 from googleapiclient.discovery import build
 import threading
+from flask import Flask  # <-- Make sure to import Flask
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
@@ -63,9 +64,9 @@ def run_flask():
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
 
-# Run Flask in a separate thread
+# Run Flask in a separate thread so it doesn't block your bot
 flask_thread = threading.Thread(target=run_flask)
 flask_thread.start()
 
-# Run the Discord bot
+# Run the Discord bot (this blocks the main thread)
 client.run(DISCORD_TOKEN)
