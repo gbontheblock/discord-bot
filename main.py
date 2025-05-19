@@ -3,6 +3,8 @@ import discord
 import asyncio
 from discord.ext import tasks
 from googleapiclient.discovery import build
+from flask import Flask
+import threading
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
@@ -51,4 +53,20 @@ async def check_new_videos():
                 msg = f"New video: **{title}**\nhttps://youtu.be/{video_id}"
                 await channel.send(msg)
 
+# Flask server to keep Render happy
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run_flask():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+# Run Flask in a separate thread
+flask_thread = threading.Thread(target=run_flask)
+flask_thread.start()
+
+# Run the Discord bot
 client.run(DISCORD_TOKEN)
