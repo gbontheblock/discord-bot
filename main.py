@@ -70,9 +70,8 @@ async def check_new_videos():
             duration_seconds = parse_iso8601_duration(duration_iso)
 
             if duration_seconds > 60:
-                msg = f"New video:
-**{title}**
-{url}
+                msg = f"New video: {title}\nhttps://youtu.be/{video_id}"
+
 Duration: {duration_seconds} seconds"
                 await channel.send(msg)
 
